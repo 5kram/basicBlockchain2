@@ -1,11 +1,9 @@
-#Import statements
+# Blockchain in Python
 import hashlib as hasher 
 import random as rand
 import time 
 import datetime as date
-#import ipyparallel as ipp
-#import numpy as np
-#import matplotlib.pyplot as plt
+
 
 class Block:
     def __init__(self, index, timestamp, data, previous_hash, nonce=0):
@@ -41,13 +39,13 @@ index = 0
 test_1(index, time, data, previous_hash)
 """
 
-#Creates the first block with current time and generic data
+# Creates the first block with current time and generic data
 def create_genesis_block():
     # Manually construct a block with
     # index zero and arbitrary previous hash
     return Block(0, date.datetime.now(), "Genesis Block", "0")
 
-#Function that creates the next block, given the last block on the chain you want to mine on
+# Function that creates the next block, given the last block on the chain you want to mine on
 def next_block(last_block, nonce=0):
     index = last_block.index + 1
     timestamp = date.datetime.now()
@@ -73,7 +71,7 @@ test_2(genesis_block)
 # Create the blockchain and add the genesis block
 blockchain = [create_genesis_block()]
 
-#Create our initial reference to previous block which points to the genesis block
+# Create our initial reference to previous block which points to the genesis block
 previous_block = blockchain[0]
 
 # How many blocks should we add to the chain after the genesis block
@@ -120,7 +118,7 @@ def generate_difficulty_bound(difficulty=1):
     diff_str = "0x" + diff_str  # "0x" needs to be added at the front to specify that it is a hex representation
     return(int(diff_str, 16))  # Specifies that we want to create an integer of base 16 (as opposed to the default base 10)
 
-#Given a previous block and a difficulty metric, finds a nonce that results in a lower hash value
+# Given a previous block and a difficulty metric, finds a nonce that results in a lower hash value
 def find_next_block(last_block, difficulty, nonce_length):
     difficulty_bound = generate_difficulty_bound(difficulty)
     start = time.process_time() 
@@ -143,16 +141,16 @@ def find_next_block(last_block, difficulty, nonce_length):
 # Create the blockchain and add the genesis block
 blockchain_pow = [create_genesis_block()]
 
-#Create our initial reference to previous block which points to the genesis block
+# Create our initial reference to previous block which points to the genesis block
 previous_block = blockchain_pow[0]
 
 # How many blocks should we add to the chain after genesis block
 num_blocks = 20
 
-#magnitude of difficulty of hash - number of zeroes that must be in the beginning of the hash
+# magnitude of difficulty of hash - number of zeroes that must be in the beginning of the hash
 difficulty = 3
 
-#length of nonce that will be generated and added
+# length of nonce that will be generated and added
 nonce_length = 20
 
 # Add blocks to the chain based on difficulty with nonces of length nonce_length
