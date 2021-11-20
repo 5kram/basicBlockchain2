@@ -107,3 +107,91 @@ def test_question_3(blockchain, num_blocks):
 
 test_question_3(blockchain, num_blocks)
 """
+
+def generate_nonce(length=20):
+    return ''.join([str(rand.randint(0, 9)) for i in range(length)])
+
+def generate_difficulty_bound(difficulty=1):
+    diff_str = ""
+    for i in range(difficulty):
+        diff_str += '0'
+    for i in range(64 - difficulty):
+        diff_str += 'F'
+    diff_str = "0x" + diff_str  # "0x" needs to be added at the front to specify that it is a hex representation
+    return(int(diff_str, 16))  # Specifies that we want to create an integer of base 16 (as opposed to the default base 10)
+
+#Given a previous block and a difficulty metric, finds a nonce that results in a lower hash value
+def find_next_block(last_block, difficulty, nonce_length):
+    difficulty_bound = generate_difficulty_bound(difficulty)
+    start = time.process_time() 
+    new_block = next_block(last_block)
+    hashes_tried = 1
+
+    while True:
+        hex_hash = "0x" + new_block.hash
+        hex_hash = int(hex_hash, 16)
+        if hex_hash < difficulty_bound:
+            break
+        nonce = generate_nonce
+        new_block = next_block(last_block, nonce)
+        hashes_tried = hashes_tried + 1
+
+
+    time_taken = time.process_time() - start
+    return(time_taken, hashes_tried, new_block)
+
+# Create the blockchain and add the genesis block
+blockchain_pow = [create_genesis_block()]
+
+#Create our initial reference to previous block which points to the genesis block
+previous_block = blockchain_pow[0]
+
+# How many blocks should we add to the chain after genesis block
+num_blocks = 20
+
+#magnitude of difficulty of hash - number of zeroes that must be in the beginning of the hash
+difficulty = 3
+
+#length of nonce that will be generated and added
+nonce_length = 20
+
+# Add blocks to the chain based on difficulty with nonces of length nonce_length
+def create_pow_blockchain(num_blocks, difficulty, blockchain_pow, previous_block, nonce_length, print_data=1):
+    hash_array = []
+    time_array = []
+    for i in range(0, num_blocks):
+        time_taken, hashes_tried, block_to_add = find_next_block(previous_block, difficulty, nonce_length)
+        blockchain_pow.append(block_to_add)
+        previous_block = block_to_add
+        hash_array.append(hashes_tried)
+        time_array.append(time_taken)
+        # Tell everyone about it!
+        if print_data:
+            print("Block #{} has been added to the blockchain!".format(block_to_add.index))
+            print("{} Hashes Tried!".format(hashes_tried))
+            print("Time taken to find block: {}".format(time_taken))
+            print("Hash: {}\n".format(block_to_add.hash))
+    return(hash_array, time_array)
+
+hash_array, time_array = create_pow_blockchain(num_blocks, difficulty, blockchain_pow, previous_block, nonce_length)
+
+"""
+# Testing 4
+# Passed test
+def test_question_4(blockchain_pow, num_blocks):
+    correct = True
+    bound = generate_difficulty_bound(difficulty)
+    if len(blockchain_pow) != num_blocks + 1:
+        correct = False
+    for i in range(len(blockchain_pow) - 1):
+        if blockchain_pow[i + 1].previous_hash != blockchain_pow[i].hash:
+            correct = False
+            break
+        if int(blockchain_pow[i + 1].hash, 16) > bound:
+            correct = False
+            break
+    print_statement = "PASSED!!! Move on to the next Part" if correct else "FAILED!!! Try Again :("
+    print(print_statement)
+            
+test_question_4(blockchain_pow, num_blocks)
+"""
