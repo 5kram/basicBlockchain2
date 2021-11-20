@@ -27,10 +27,10 @@ class Block:
 """
 # Testing 1
 # Passed test
-def test_question_1(index, time, data, previous_hash):
+def test_1(index, time, data, previous_hash):
     new_block = Block(index, time, data, previous_hash)
     check_string = '2def27922fc1c67254a9cdb0c660b91abf9b135ad38fc13c7c77007448b824a0'
-    print_statement = "PASSED!!! Move on to next Question" if str(new_block.hash) == check_string else "FAILED!!! Try Again"
+    print_statement = "PASSED!!!" if str(new_block.hash) == check_string else "FAILED!!!"
     print(print_statement)
     
 time = '2019-10-17 00:37:35.256774'
@@ -38,7 +38,7 @@ data = 'Machine Learning Blockchain AI'
 previous_hash = '6ffd1464f68ef4aeb385d399244efa19293ba5c842c464a82c02f8256ef71428'
 index = 0
     
-test_question_1(index, time, data, previous_hash)
+test_1(index, time, data, previous_hash)
 """
 
 #Creates the first block with current time and generic data
@@ -58,16 +58,16 @@ def next_block(last_block, nonce=0):
 """
 # Testing 2
 # Passed test
-def test_question_2(genesis_block):
+def test_2(genesis_block):
     block_1 = next_block(genesis_block)
     if block_1.index == 1 and block_1.data == "Hey! I'm block 1" and block_1.previous_hash == genesis_block.hash and str(type(block_1.timestamp)) == "<class 'datetime.datetime'>":
-        print("PASSED!!! Move on to next part" )
+        print("PASSED!!!" )
     else:
-        print("FAILED!!! Try again :(")
+        print("FAILED!!!")
     
 
 genesis_block = create_genesis_block()
-test_question_2(genesis_block)
+test_2(genesis_block)
 """
 
 # Create the blockchain and add the genesis block
@@ -94,7 +94,7 @@ complete_chain(num_blocks, blockchain, previous_block)
 """
 # Testing 3
 # Passed test
-def test_question_3(blockchain, num_blocks):
+def test_3(blockchain, num_blocks):
     correct = True
     if len(blockchain) != num_blocks + 1:
         correct = False
@@ -102,10 +102,10 @@ def test_question_3(blockchain, num_blocks):
         if blockchain[i + 1].previous_hash != blockchain[i].hash:
             correct = False
             break
-    print_statement = "PASSED!!! Move on to the next Part" if correct else "FAILED!!! Try Again :("
+    print_statement = "PASSED!!!" if correct else "FAILED!!!"
     print(print_statement)
 
-test_question_3(blockchain, num_blocks)
+test_3(blockchain, num_blocks)
 """
 
 def generate_nonce(length=20):
@@ -178,7 +178,7 @@ hash_array, time_array = create_pow_blockchain(num_blocks, difficulty, blockchai
 """
 # Testing 4
 # Passed test
-def test_question_4(blockchain_pow, num_blocks):
+def test_4(blockchain_pow, num_blocks):
     correct = True
     bound = generate_difficulty_bound(difficulty)
     if len(blockchain_pow) != num_blocks + 1:
@@ -190,8 +190,8 @@ def test_question_4(blockchain_pow, num_blocks):
         if int(blockchain_pow[i + 1].hash, 16) > bound:
             correct = False
             break
-    print_statement = "PASSED!!! Move on to the next Part" if correct else "FAILED!!! Try Again :("
+    print_statement = "PASSED!!!" if correct else "FAILED!!!"
     print(print_statement)
             
-test_question_4(blockchain_pow, num_blocks)
+test_4(blockchain_pow, num_blocks)
 """
