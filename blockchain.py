@@ -69,3 +69,41 @@ def test_question_2(genesis_block):
 genesis_block = create_genesis_block()
 test_question_2(genesis_block)
 """
+
+# Create the blockchain and add the genesis block
+blockchain = [create_genesis_block()]
+
+#Create our initial reference to previous block which points to the genesis block
+previous_block = blockchain[0]
+
+# How many blocks should we add to the chain after the genesis block
+num_blocks = 20
+
+def complete_chain(num_blocks, blockchain, previous_block):
+    # Add blocks to the chain
+    for i in range(0, num_blocks):
+        block_to_add = next_block(previous_block)
+        blockchain.append(block_to_add)
+        previous_block = block_to_add
+        # Tell everyone about it!
+        print("Block #{} has been added to the blockchain!".format(block_to_add.index))
+        print("Hash: {}\n".format(block_to_add.hash))
+
+complete_chain(num_blocks, blockchain, previous_block)
+
+"""
+# Testing 3
+# Passed test
+def test_question_3(blockchain, num_blocks):
+    correct = True
+    if len(blockchain) != num_blocks + 1:
+        correct = False
+    for i in range(len(blockchain)-1):
+        if blockchain[i + 1].previous_hash != blockchain[i].hash:
+            correct = False
+            break
+    print_statement = "PASSED!!! Move on to the next Part" if correct else "FAILED!!! Try Again :("
+    print(print_statement)
+
+test_question_3(blockchain, num_blocks)
+"""
