@@ -9,22 +9,27 @@ import datetime as date
 
 class Block:
     def __init__(self, index, timestamp, data, prev_hash, nonce=0):
+        """ __init__ function that creates a new block given some parameters. """
         self.index = index
         self.timestamp = timestamp
         self.data = data
         self.prev_hash = prev_hash
         self.nonce = nonce
         self.hash = self.hash_block()
+        print(self.hash)
+
 
 
     def hash_block(self):
-        message = str(self.index) + str(self.timestamp) + str(self.data) + str(self.prev_hash) + str(self.nonce)
+        """ hash_block function that computes the hash of this block based on its class variables. """
+        message = str(self.index) + self.timestamp + self.data + self.prev_hash + str(self.nonce)
         hash = hasher.sha256()
         hash.update(message.encode('utf-8'))
-        self.hash = hash.hexdigest()
+        return hash.hexdigest()
 
 """
-Testing TODO: Pass test
+# Testing 
+# Passed test
 def test_question_1(index, time, data, previous_hash):
     new_block = Block(index, time, data, previous_hash)
     check_string = '2def27922fc1c67254a9cdb0c660b91abf9b135ad38fc13c7c77007448b824a0'
